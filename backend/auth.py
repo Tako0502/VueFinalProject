@@ -2,6 +2,7 @@
 auth.py - Authentication Utilities
 JWT token handling and password hashing
 """
+import os
 from datetime import datetime, timedelta
 from typing import Optional
 from jose import JWTError, jwt
@@ -13,8 +14,8 @@ from sqlalchemy.orm import Session
 from database import get_db
 import models
 
-# Secret key for JWT encoding (in production, use environment variable)
-SECRET_KEY = "lifeos-secret-key-change-in-production-2024"
+# Secret key for JWT encoding (set `SECRET_KEY` in production)
+SECRET_KEY = os.getenv("SECRET_KEY", "lifeos-secret-key-change-in-production-2024")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 

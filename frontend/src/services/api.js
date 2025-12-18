@@ -3,7 +3,10 @@
  * Connects Vue frontend to Python FastAPI backend
  */
 
-const API_BASE_URL = 'http://localhost:8000'
+const DEFAULT_DEV_API_BASE_URL = 'http://localhost:8000'
+const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL ??
+    (import.meta.env.DEV ? DEFAULT_DEV_API_BASE_URL : '')
 
 /**
  * Get stored JWT token
