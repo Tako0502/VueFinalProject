@@ -1,15 +1,8 @@
-/**
- * User Store - Pinia State Management with API Integration
- * Connects to Python FastAPI backend for real data persistence
- */
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import * as api from '@/services/api'
 
 export const useUserStore = defineStore('user', () => {
-    // ============================================
-    // STATE
-    // ============================================
 
     const user = ref({
         id: null,
@@ -23,9 +16,6 @@ export const useUserStore = defineStore('user', () => {
     const isLoading = ref(false)
     const error = ref(null)
 
-    // ============================================
-    // GETTERS
-    // ============================================
 
     const totalExpenses = computed(() => {
         return expenses.value.reduce((total, expense) => total + expense.amount, 0)
@@ -52,9 +42,6 @@ export const useUserStore = defineStore('user', () => {
         return Math.min(100, Math.round((totalExpenses.value / budgetLimit.value) * 100))
     })
 
-    // ============================================
-    // ACTIONS - Authentication
-    // ============================================
 
     async function register(credentials) {
         isLoading.value = true
@@ -83,7 +70,7 @@ export const useUserStore = defineStore('user', () => {
             user.value = data.user
             budgetLimit.value = data.user.budget_limit
             isAuthenticated.value = true
-            // Load expenses after login
+    
             await loadExpenses()
             return true
         } catch (err) {
@@ -102,9 +89,6 @@ export const useUserStore = defineStore('user', () => {
         budgetLimit.value = 1000
     }
 
-    // ============================================
-    // ACTIONS - Profile
-    // ============================================
 
     async function loadProfile() {
         try {
@@ -113,7 +97,7 @@ export const useUserStore = defineStore('user', () => {
             budgetLimit.value = profile.budget_limit
             isAuthenticated.value = true
         } catch (err) {
-            // Token invalid, logout
+    
             logout()
         }
     }
@@ -141,9 +125,6 @@ export const useUserStore = defineStore('user', () => {
         return updateProfile({ budget_limit: newLimit })
     }
 
-    // ============================================
-    // ACTIONS - Expenses
-    // ============================================
 
     async function loadExpenses() {
         try {
@@ -190,9 +171,6 @@ export const useUserStore = defineStore('user', () => {
         }
     }
 
-    // ============================================
-    // INITIALIZATION
-    // ============================================
 
     async function initialize() {
         const token = api.getToken()
@@ -205,19 +183,19 @@ export const useUserStore = defineStore('user', () => {
     }
 
     return {
-        // State
+
         user,
         isAuthenticated,
         budgetLimit,
         expenses,
         isLoading,
         error,
-        // Getters
+
         totalExpenses,
         remainingBudget,
         budgetStatus,
         budgetPercentage,
-        // Actions
+
         register,
         login,
         logout,

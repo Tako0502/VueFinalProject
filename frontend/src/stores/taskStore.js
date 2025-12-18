@@ -1,23 +1,11 @@
-/**
- * Task Store - Pinia State Management with API Integration
- * Connects to Python FastAPI backend for real data persistence
- */
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import * as api from '@/services/api'
 
 export const useTaskStore = defineStore('tasks', () => {
-    // ============================================
-    // STATE
-    // ============================================
-
     const tasks = ref([])
     const isLoading = ref(false)
     const error = ref(null)
-
-    // ============================================
-    // GETTERS
-    // ============================================
 
     const completedTasks = computed(() => {
         return tasks.value.filter(task => task.completed)
@@ -42,9 +30,9 @@ export const useTaskStore = defineStore('tasks', () => {
         return { total, completed, pending, percentage }
     })
 
-    // ============================================
-    // ACTIONS
-    // ============================================
+    
+    
+    
 
     async function loadTasks() {
         isLoading.value = true
@@ -66,7 +54,7 @@ export const useTaskStore = defineStore('tasks', () => {
 
         try {
             const dateTasks = await api.fetchTasksByDate(date)
-            // Merge with existing tasks or replace based on date
+            
             dateTasks.forEach(task => {
                 const index = tasks.value.findIndex(t => t.id === task.id)
                 if (index > -1) {
@@ -149,7 +137,7 @@ export const useTaskStore = defineStore('tasks', () => {
     }
 
     function clearCompleted() {
-        // Delete all completed tasks from API
+        
         const completedIds = completedTasks.value.map(t => t.id)
         completedIds.forEach(id => deleteTask(id))
     }
@@ -167,16 +155,13 @@ export const useTaskStore = defineStore('tasks', () => {
     }
 
     return {
-        // State
         tasks,
         isLoading,
         error,
-        // Getters
         completedTasks,
         pendingTasks,
         getTasksByDate,
         taskStats,
-        // Actions
         loadTasks,
         loadTasksByDate,
         addTask,

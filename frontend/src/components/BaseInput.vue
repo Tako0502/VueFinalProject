@@ -1,63 +1,54 @@
 <script setup>
-/**
- * BaseInput.vue - Reusable Input Component
- * [REQ 2] Demonstrates Props and Emits pattern
- * [REQ 1] Uses v-model, v-bind for two-way binding
- */
 import { AlertCircle } from 'lucide-vue-next'
 
-// ============================================
-// [REQ 2] PROPS
-// ============================================
 const props = defineProps({
-  // Current input value (for v-model)
   modelValue: {
     type: [String, Number],
     default: ''
   },
-  // Input type (text, email, password, number, etc.)
+  
   type: {
     type: String,
     default: 'text'
   },
-  // Label text
+  
   label: {
     type: String,
     default: ''
   },
-  // Placeholder text
+  
   placeholder: {
     type: String,
     default: ''
   },
-  // Error message to display
+  
   error: {
     type: String,
     default: ''
   },
-  // Whether the field is required
+  
   required: {
     type: Boolean,
     default: false
   },
-  // Whether the input is disabled
+  
   disabled: {
     type: Boolean,
     default: false
   },
-  // Icon component to display
+  
   icon: {
     type: [Object, null],
     default: null
   }
 })
 
-// ============================================
-// [REQ 2] EMITS - For v-model support
-// ============================================
+
+
+
 const emit = defineEmits(['update:modelValue', 'blur', 'focus'])
 
-// Handle input change
+
 const handleInput = (event) => {
   emit('update:modelValue', event.target.value)
 }

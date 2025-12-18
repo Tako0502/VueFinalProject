@@ -1,49 +1,42 @@
 <script setup>
-/**
- * BudgetCard.vue - Budget Summary Card
- * [REQ 2] Component with Props
- * [REQ 3] Uses computed for remaining budget calculation
- */
 import { computed } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import { Wallet, Plus } from 'lucide-vue-next'
 
-// ============================================
-// [REQ 2] PROPS
-// ============================================
+
+
+
 const props = defineProps({
-  // Custom title for the card
   title: {
     type: String,
     default: 'Monthly Budget'
   },
-  // Show detailed breakdown
   showDetails: {
     type: Boolean,
     default: true
   }
 })
 
-// ============================================
-// [REQ 2] EMITS
-// ============================================
+
+
+
 const emit = defineEmits(['add-expense', 'view-details'])
 
-// Access the user store
+
 const userStore = useUserStore()
 
-// ============================================
-// [REQ 3] COMPUTED - Remaining budget calculation
-// ============================================
 
-// Get values from store (already computed there)
+
+
+
+
 const budgetLimit = computed(() => userStore.budgetLimit)
 const totalSpent = computed(() => userStore.totalExpenses)
 const remaining = computed(() => userStore.remainingBudget)
 const percentage = computed(() => userStore.budgetPercentage)
 const status = computed(() => userStore.budgetStatus)
 
-// Progress bar color based on budget status
+
 const progressColor = computed(() => {
   const colors = {
     success: 'var(--secondary-color)',
@@ -54,7 +47,7 @@ const progressColor = computed(() => {
   return colors[status.value.color] || colors.info
 })
 
-// Format currency
+
 const formatCurrency = (amount) => {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -62,7 +55,7 @@ const formatCurrency = (amount) => {
   }).format(amount)
 }
 
-// Recent expenses (last 3)
+
 const recentExpenses = computed(() => {
   return [...userStore.expenses]
     .sort((a, b) => new Date(b.date) - new Date(a.date))

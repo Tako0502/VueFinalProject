@@ -1,20 +1,8 @@
 <script setup>
-/**
- * FocusTimer.vue - Pomodoro Timer Component
- * [REQ 2] Component with Props/Emits
- * [REQ 4] Uses useFocusTimer composable with onMounted
- */
+
 import { useFocusTimer } from '@/composables/useFocusTimer'
 import { Timer, Play, Pause, RotateCcw, SkipForward } from 'lucide-vue-next'
-
-// ============================================
-// [REQ 2] EMITS
-// ============================================
 const emit = defineEmits(['session-complete'])
-
-// ============================================
-// [REQ 4] Use the composable (contains onMounted)
-// ============================================
 const {
   formattedTime,
   isRunning,
@@ -28,8 +16,6 @@ const {
   reset,
   skip
 } = useFocusTimer()
-
-// Handle session complete
 const handleStart = () => {
   start()
 }

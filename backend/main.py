@@ -29,15 +29,20 @@ app = FastAPI(
 # CORS MIDDLEWARE
 # Allows Vue.js frontend to communicate with backend
 # ============================================
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
+cors_origins_env = os.getenv("CORS_ALLOW_ORIGINS")
+if cors_origins_env:
+    allow_origins = [origin.strip() for origin in cors_origins_env.split(",") if origin.strip()]
+else:
+    allow_origins = [
         "http://localhost:5173",      # Vite dev server
         "http://localhost:3000",      # Alternative port
         "http://127.0.0.1:5173",
         "http://127.0.0.1:3000",
-        "*"                           # Allow all for development
-    ],
+    ]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allow_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

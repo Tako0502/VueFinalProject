@@ -1,53 +1,48 @@
 <script setup>
-/**
- * BudgetForm.vue - Add Expense Form with Validation
- * [REQ 7] Forms + Validation: validate input, show error messages
- * [REQ 1] Uses v-model, v-on, v-if directives
- */
 import { ref, reactive, computed, inject } from 'vue'
 import BaseInput from './BaseInput.vue'
 import { useUserStore } from '@/stores/userStore'
 import { Receipt, FileText, DollarSign } from 'lucide-vue-next'
 
-// ============================================
-// [REQ 2] PROPS
-// ============================================
+
+
+
 const props = defineProps({
-  // Mode: 'expense' or 'budget'
+  
   mode: {
     type: String,
     default: 'expense'
   }
 })
 
-// ============================================
-// [REQ 2] EMITS
-// ============================================
+
+
+
 const emit = defineEmits(['submit', 'cancel'])
 
-// Access user store and notification
+
 const userStore = useUserStore()
 const showNotification = inject('showNotification', () => {})
 
-// ============================================
-// [REQ 3] REACTIVE - Form data
-// ============================================
+
+
+
 const form = reactive({
   name: '',
   amount: '',
   category: 'General'
 })
 
-// [REQ 3] REF - Validation errors
+
 const errors = ref({
   name: '',
   amount: ''
 })
 
-// Form submission state
+
 const isSubmitting = ref(false)
 
-// Category options
+
 const categories = [
   'General',
   'Food',
@@ -59,18 +54,18 @@ const categories = [
   'Utilities'
 ]
 
-// ============================================
-// [REQ 7] FORM VALIDATION
-// ============================================
 
-// Validate the entire form
+
+
+
+
 const validateForm = () => {
   let isValid = true
   
-  // Reset errors
+  
   errors.value = { name: '', amount: '' }
   
-  // [REQ 7] Validate name - required
+  
   if (!form.name.trim()) {
     errors.value.name = 'Expense name is required'
     isValid = false
@@ -79,7 +74,7 @@ const validateForm = () => {
     isValid = false
   }
   
-  // [REQ 7] Validate amount - must be number > 0
+  
   const amount = parseFloat(form.amount)
   if (!form.amount) {
     errors.value.amount = 'Amount is required'
@@ -98,7 +93,7 @@ const validateForm = () => {
   return isValid
 }
 
-// Validate individual field on blur
+
 const validateField = (field) => {
   if (field === 'name') {
     if (!form.name.trim()) {
@@ -124,7 +119,7 @@ const validateField = (field) => {
   }
 }
 
-// [REQ 3] Computed - Form validity check
+
 const isFormValid = computed(() => {
   return form.name.trim() && 
          parseFloat(form.amount) > 0 && 
@@ -132,12 +127,12 @@ const isFormValid = computed(() => {
          !errors.value.amount
 })
 
-// ============================================
-// FORM SUBMISSION
-// ============================================
+
+
+
 
 const handleSubmit = async () => {
-  // Validate form
+  
   if (!validateForm()) {
     return
   }
@@ -145,7 +140,7 @@ const handleSubmit = async () => {
   isSubmitting.value = true
   
   try {
-    // Add expense to store
+    
     const expense = {
       name: form.name.trim(),
       amount: parseFloat(form.amount),
@@ -154,13 +149,13 @@ const handleSubmit = async () => {
     
     userStore.addExpense(expense)
     
-    // Show success notification
+    
     showNotification(`Added expense: ${expense.name} ($${expense.amount})`, 'success')
     
-    // Emit submit event
+    
     emit('submit', expense)
     
-    // Reset form
+    
     form.name = ''
     form.amount = ''
     form.category = 'General'
@@ -174,7 +169,7 @@ const handleSubmit = async () => {
 }
 
 const handleCancel = () => {
-  // Reset form
+  
   form.name = ''
   form.amount = ''
   form.category = 'General'
