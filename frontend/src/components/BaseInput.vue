@@ -6,37 +6,30 @@ const props = defineProps({
     type: [String, Number],
     default: ''
   },
-  
   type: {
     type: String,
     default: 'text'
   },
-  
   label: {
     type: String,
     default: ''
   },
-  
   placeholder: {
     type: String,
     default: ''
   },
-  
   error: {
     type: String,
     default: ''
   },
-  
   required: {
     type: Boolean,
     default: false
   },
-  
   disabled: {
     type: Boolean,
     default: false
   },
-  
   icon: {
     type: [Object, null],
     default: null
@@ -44,10 +37,7 @@ const props = defineProps({
 })
 
 
-
-
 const emit = defineEmits(['update:modelValue', 'blur', 'focus'])
-
 
 const handleInput = (event) => {
   emit('update:modelValue', event.target.value)
@@ -64,19 +54,17 @@ const handleFocus = (event) => {
 
 <template>
   <div class="input-wrapper" :class="{ 'has-error': error }">
-    <!-- Label -->
-    <!-- [REQ 1] v-if for conditional rendering -->
     <label v-if="label" class="input-label">
       {{ label }}
       <span v-if="required" class="required-mark">*</span>
     </label>
 
     <div class="input-container">
-      <!-- Icon -->
+
       <component v-if="icon" :is="icon" class="input-icon" :size="18" />
 
-      <!-- [REQ 1] v-model implementation through :value and @input -->
-      <!-- [REQ 1] v-bind (:type, :placeholder, :disabled) for dynamic attributes -->
+
+
       <input
         :type="type"
         :value="modelValue"
@@ -91,9 +79,6 @@ const handleFocus = (event) => {
       />
     </div>
 
-    <!-- Error Message -->
-    <!-- [REQ 1] v-if for conditional error display -->
-    <!-- [REQ 9] Transition for error message -->
     <Transition name="fade">
       <span v-if="error" class="error-message">
         <AlertCircle :size="14" />

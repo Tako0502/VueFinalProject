@@ -35,7 +35,6 @@ const handleSkip = () => {
 
 <template>
   <div class="focus-timer">
-    <!-- Timer Header -->
     <div class="timer-header">
       <h3 class="timer-title">
         <Timer class="title-icon" :size="20" />
@@ -46,8 +45,6 @@ const handleSkip = () => {
       </span>
     </div>
 
-    <!-- Session Type Indicator -->
-    <!-- [REQ 1] v-bind for dynamic class -->
     <div 
       class="session-indicator"
       :class="{ 
@@ -58,12 +55,11 @@ const handleSkip = () => {
       {{ sessionLabel }}
     </div>
 
-    <!-- Timer Display -->
     <div class="timer-display">
-      <!-- Progress Ring -->
+
       <div class="progress-ring">
         <svg class="progress-svg" viewBox="0 0 100 100">
-          <!-- Background circle -->
+    
           <circle
             class="progress-background"
             cx="50"
@@ -72,8 +68,8 @@ const handleSkip = () => {
             fill="none"
             stroke-width="6"
           />
-          <!-- Progress circle -->
-          <!-- [REQ 1] v-bind (:stroke-dashoffset) for dynamic progress -->
+    
+    
           <circle
             class="progress-circle"
             :class="{ 'progress-circle--break': !isWorkSession }"
@@ -87,10 +83,10 @@ const handleSkip = () => {
           />
         </svg>
         
-        <!-- Time Display -->
+  
         <div class="time-display">
           <span class="time-value">{{ formattedTime }}</span>
-          <!-- [REQ 1] v-if for conditional text -->
+    
           <span class="time-label">
             {{ isRunning ? 'remaining' : 'paused' }}
           </span>
@@ -98,9 +94,8 @@ const handleSkip = () => {
       </div>
     </div>
 
-    <!-- Control Buttons -->
     <div class="timer-controls">
-      <!-- [REQ 1] v-if/else for conditional rendering -->
+
       <button 
         v-if="!isRunning"
         class="btn-control btn-start"
@@ -135,7 +130,6 @@ const handleSkip = () => {
       </button>
     </div>
 
-    <!-- Total Focus Time -->
     <div class="total-time">
       <span class="total-label">Total focus today:</span>
       <span class="total-value">{{ formattedTotalTime }}</span>
@@ -144,7 +138,6 @@ const handleSkip = () => {
 </template>
 
 <style scoped>
-/* [REQ 9] Scoped CSS with animations */
 .focus-timer {
   background: linear-gradient(135deg, var(--surface-color), rgba(168, 85, 247, 0.1));
   border-radius: var(--radius);

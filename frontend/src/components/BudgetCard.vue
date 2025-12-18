@@ -17,18 +17,9 @@ const props = defineProps({
   }
 })
 
-
-
-
 const emit = defineEmits(['add-expense', 'view-details'])
 
-
 const userStore = useUserStore()
-
-
-
-
-
 
 const budgetLimit = computed(() => userStore.budgetLimit)
 const totalSpent = computed(() => userStore.totalExpenses)

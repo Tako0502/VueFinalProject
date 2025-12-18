@@ -1,17 +1,8 @@
 <script setup>
-/**
- * TaskItem.vue - Task Display Component
- * [REQ 2] Demonstrates Props and Emits pattern
- * [REQ 1] Uses v-bind, v-on, v-if directives
- */
+
 import { computed } from 'vue'
 import { Calendar, Pencil, Trash2 } from 'lucide-vue-next'
-
-// ============================================
-// [REQ 2] PROPS - Receive data from parent
-// ============================================
 const props = defineProps({
-  // Task object containing all task data
   task: {
     type: Object,
     required: true,
@@ -19,27 +10,18 @@ const props = defineProps({
       return task.id !== undefined && task.title !== undefined
     }
   },
-  // Whether to show delete button
   showDelete: {
     type: Boolean,
     default: true
   }
 })
 
-// ============================================
-// [REQ 2] EMITS - Events to send to parent
-// ============================================
 const emit = defineEmits([
-  'toggle',    // Emitted when task completion is toggled
-  'delete',    // Emitted when delete button is clicked
-  'edit'       // Emitted when edit button is clicked
+  'toggle',  
+  'delete',  
+  'edit'     
 ])
 
-// ============================================
-// [REQ 3] COMPUTED - Derived properties
-// ============================================
-
-// Priority badge styling
 const priorityClass = computed(() => {
   const classes = {
     high: 'priority--high',
@@ -49,7 +31,6 @@ const priorityClass = computed(() => {
   return classes[props.task.priority] || classes.medium
 })
 
-// Format date for display
 const formattedDate = computed(() => {
   if (!props.task.date) return ''
   const date = new Date(props.task.date)
@@ -59,35 +40,26 @@ const formattedDate = computed(() => {
   })
 })
 
-// ============================================
-// EVENT HANDLERS
-// ============================================
-
-// Handle checkbox toggle
 const handleToggle = () => {
   emit('toggle', props.task.id)
 }
 
-// Handle delete click
 const handleDelete = () => {
   emit('delete', props.task.id)
 }
 
-// Handle edit click
 const handleEdit = () => {
   emit('edit', props.task)
 }
+
 </script>
 
 <template>
-  <!-- [REQ 1] v-bind for dynamic class binding based on completion state -->
   <div 
     class="task-item" 
     :class="{ 'task-item--completed': task.completed }"
   >
-    <!-- Checkbox for completion toggle -->
     <label class="task-checkbox">
-      <!-- [REQ 1] v-bind (:checked) and v-on (@change) -->
       <input 
         type="checkbox"
         :checked="task.completed"
@@ -97,23 +69,17 @@ const handleEdit = () => {
       <span class="checkbox-custom"></span>
     </label>
 
-    <!-- Task Content -->
     <div class="task-content">
       <h4 class="task-title">{{ task.title }}</h4>
       
-      <!-- [REQ 1] v-if for conditional rendering -->
       <p v-if="task.description" class="task-description">
         {{ task.description }}
       </p>
       
       <div class="task-meta">
-        <!-- Priority Badge -->
-        <!-- [REQ 1] v-bind (:class) for dynamic styling -->
         <span class="priority-badge" :class="priorityClass">
           {{ task.priority }}
         </span>
-        
-        <!-- Date -->
         <span v-if="task.date" class="task-date">
           <Calendar :size="12" />
           {{ formattedDate }}
@@ -121,9 +87,7 @@ const handleEdit = () => {
       </div>
     </div>
 
-    <!-- Action Buttons -->
     <div class="task-actions">
-      <!-- [REQ 1] v-on (@click) for event handling -->
       <button 
         class="btn-action btn-edit" 
         @click="handleEdit"
@@ -132,7 +96,6 @@ const handleEdit = () => {
         <Pencil :size="16" />
       </button>
       
-      <!-- [REQ 1] v-if for conditional rendering -->
       <button 
         v-if="showDelete"
         class="btn-action btn-delete" 
@@ -146,7 +109,6 @@ const handleEdit = () => {
 </template>
 
 <style scoped>
-/* [REQ 9] Scoped CSS with transitions */
 .task-item {
   display: flex;
   align-items: flex-start;
@@ -164,7 +126,6 @@ const handleEdit = () => {
   box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);
 }
 
-/* Completed state styling */
 .task-item--completed {
   opacity: 0.7;
 }
@@ -174,7 +135,6 @@ const handleEdit = () => {
   color: var(--text-secondary);
 }
 
-/* Custom Checkbox */
 .task-checkbox {
   position: relative;
   cursor: pointer;
@@ -211,7 +171,6 @@ const handleEdit = () => {
   font-weight: bold;
 }
 
-/* Task Content */
 .task-content {
   flex: 1;
   min-width: 0;

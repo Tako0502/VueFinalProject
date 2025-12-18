@@ -1,38 +1,25 @@
 <script setup>
-/**
- * NotificationToast.vue - Toast Notification Component
- * [REQ 2] Demonstrates Props and Emits pattern
- * [REQ 9] Uses CSS transitions for fade in/out
- */
-
-// ============================================
-// [REQ 2] PROPS
-// ============================================
 const props = defineProps({
-  // Message to display
+
   message: {
     type: String,
     required: true
   },
-  // Type of notification (success, error, warning, info)
+
   type: {
     type: String,
     default: 'info',
     validator: (value) => ['success', 'error', 'warning', 'info'].includes(value)
   },
-  // Duration in ms (0 = persistent)
+
   duration: {
     type: Number,
     default: 3000
   }
 })
 
-// ============================================
-// [REQ 2] EMITS
-// ============================================
 const emit = defineEmits(['close'])
 
-// Icons for each notification type
 const icons = {
   success: '✅',
   error: '❌',
@@ -40,24 +27,15 @@ const icons = {
   info: 'ℹ️'
 }
 
-// Handle close
 const handleClose = () => {
   emit('close')
 }
 </script>
 
 <template>
-  <!-- [REQ 9] Transition wrapper handled by parent component -->
-  <!-- [REQ 1] v-bind (:class) for dynamic styling based on type -->
   <div class="toast" :class="`toast--${type}`">
-    <!-- Icon -->
     <span class="toast-icon">{{ icons[type] }}</span>
-    
-    <!-- Message -->
     <p class="toast-message">{{ message }}</p>
-    
-    <!-- Close Button -->
-    <!-- [REQ 1] v-on (@click) for event handling -->
     <button class="toast-close" @click="handleClose">
       ✕
     </button>
@@ -65,7 +43,6 @@ const handleClose = () => {
 </template>
 
 <style scoped>
-/* [REQ 9] Scoped CSS */
 .toast {
   position: fixed;
   top: 80px;
@@ -82,7 +59,6 @@ const handleClose = () => {
   min-width: 300px;
   max-width: 450px;
   
-  /* [REQ 9] Animation */
   animation: slideIn 0.3s ease-out;
 }
 
@@ -97,7 +73,6 @@ const handleClose = () => {
   }
 }
 
-/* Type-specific styling */
 .toast--success {
   border-left: 4px solid var(--secondary-color);
 }

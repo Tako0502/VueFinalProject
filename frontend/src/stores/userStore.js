@@ -9,25 +9,19 @@ export const useUserStore = defineStore('user', () => {
         name: '',
         email: ''
     })
-
     const isAuthenticated = ref(false)
     const budgetLimit = ref(1000)
     const expenses = ref([])
     const isLoading = ref(false)
     const error = ref(null)
-
-
     const totalExpenses = computed(() => {
         return expenses.value.reduce((total, expense) => total + expense.amount, 0)
     })
-
     const remainingBudget = computed(() => {
         return budgetLimit.value - totalExpenses.value
     })
-
     const budgetStatus = computed(() => {
         const percentage = (totalExpenses.value / budgetLimit.value) * 100
-
         if (percentage >= 100) {
             return { status: 'over', message: 'Budget exceeded!', color: 'danger' }
         } else if (percentage >= 80) {
@@ -183,19 +177,16 @@ export const useUserStore = defineStore('user', () => {
     }
 
     return {
-
         user,
         isAuthenticated,
         budgetLimit,
         expenses,
         isLoading,
         error,
-
         totalExpenses,
         remainingBudget,
         budgetStatus,
         budgetPercentage,
-
         register,
         login,
         logout,
