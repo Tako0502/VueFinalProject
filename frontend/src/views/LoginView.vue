@@ -1,8 +1,6 @@
 <script setup>
 /**
  * LoginView.vue - Login/Register Page
- * [REQ 5] Navigation guard redirect destination
- * [REQ 7] Form with validation
  */
 import { ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
@@ -17,14 +15,14 @@ const userStore = useUserStore()
 // Toggle between login and register mode
 const isRegisterMode = ref(false)
 
-// [REQ 3] Reactive form data
+// Reactive form data
 const form = reactive({
   name: '',
   email: '',
   password: ''
 })
 
-// [REQ 3] Ref for errors and loading
+// Ref for errors and loading
 const errors = ref({
   name: '',
   email: '',
@@ -33,7 +31,7 @@ const errors = ref({
 const isLoading = ref(false)
 const formError = ref('')
 
-// [REQ 7] Validate form
+// Validate form
 const validateForm = () => {
   let isValid = true
   errors.value = { name: '', email: '', password: '' }
@@ -128,9 +126,7 @@ const toggleMode = () => {
           {{ isRegisterMode ? 'Sign up to get started' : 'Sign in to continue to your dashboard' }}
         </p>
 
-        <!-- [REQ 1] v-on for form submit -->
         <form @submit.prevent="handleSubmit" class="login-form">
-          <!-- [REQ 1] v-if for error display -->
           <div v-if="formError" class="alert alert-error">
             {{ formError }}
           </div>
@@ -197,7 +193,7 @@ const toggleMode = () => {
 </template>
 
 <style scoped>
-/* [REQ 9] Scoped CSS */
+
 .login-view {
   min-height: 100vh;
   display: flex;

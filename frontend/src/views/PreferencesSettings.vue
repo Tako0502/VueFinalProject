@@ -1,7 +1,6 @@
 <script setup>
 /**
  * PreferencesSettings.vue - App Preferences Settings
- * [REQ 5] Nested route: /settings/preferences
  */
 import { ref, inject } from 'vue'
 import { useUserStore } from '@/stores/userStore'
@@ -64,7 +63,6 @@ const clearTasks = () => {
       <div class="setting-item">
         <label class="setting-label">Monthly Budget Limit</label>
         <div class="setting-control">
-          <!-- [REQ 1] v-model for budget input -->
           <BaseInput
             v-model="budgetLimit"
             type="number"
@@ -106,7 +104,6 @@ const clearTasks = () => {
             Remove all expense records from your account
           </p>
         </div>
-        <!-- [REQ 1] v-on for click handler -->
         <button @click="clearExpenses" class="btn-danger">
           Clear Expenses
         </button>
@@ -138,7 +135,7 @@ const clearTasks = () => {
 </template>
 
 <style scoped>
-/* [REQ 9] Scoped CSS */
+/* Scoped CSS */
 .section-title {
   font-size: 1.25rem;
   color: var(--text-primary);

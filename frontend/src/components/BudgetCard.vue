@@ -62,7 +62,6 @@ const recentExpenses = computed(() => {
         <Wallet class="title-icon" :size="20" />
         {{ title }}
       </h3>
-      <!-- [REQ 1] v-bind for dynamic styling -->
       <span 
         class="status-badge" 
         :class="`status-badge--${status.color}`"
@@ -75,7 +74,6 @@ const recentExpenses = computed(() => {
     <div class="budget-amount">
       <div class="amount-remaining">
         <span class="amount-label">Remaining</span>
-        <!-- [REQ 1] v-bind for dynamic class based on remaining amount -->
         <span 
           class="amount-value"
           :class="{ 'amount-value--negative': remaining < 0 }"
@@ -91,7 +89,6 @@ const recentExpenses = computed(() => {
     <!-- Progress Bar -->
     <div class="progress-container">
       <div class="progress-bar">
-        <!-- [REQ 1] v-bind (:style) for dynamic inline styles -->
         <div 
           class="progress-fill"
           :style="{ 
@@ -122,11 +119,9 @@ const recentExpenses = computed(() => {
       </div>
 
       <!-- Recent Expenses -->
-      <!-- [REQ 1] v-if to check if there are expenses -->
       <div v-if="recentExpenses.length > 0" class="recent-expenses">
         <h4 class="section-title">Recent Expenses</h4>
         <ul class="expense-list">
-          <!-- [REQ 1] v-for for iterating -->
           <li 
             v-for="expense in recentExpenses" 
             :key="expense.id"
@@ -146,9 +141,7 @@ const recentExpenses = computed(() => {
       </div>
     </template>
 
-    <!-- Actions -->
     <div class="budget-actions">
-      <!-- [REQ 1] v-on (@click) for event handling -->
       <button 
         class="btn-add-expense"
         @click="emit('add-expense')"
@@ -167,7 +160,7 @@ const recentExpenses = computed(() => {
 </template>
 
 <style scoped>
-/* [REQ 9] Scoped CSS */
+
 .budget-card {
   background: linear-gradient(135deg, var(--surface-color), rgba(99, 102, 241, 0.1));
   border-radius: var(--radius);

@@ -1,7 +1,5 @@
 /**
  * Mock API Service
- * [REQ 8] Simulates API calls with 500ms delay using setTimeout
- * Demonstrates handling of Loading and Error states
  */
 
 // Simulated delay to mimic network latency
@@ -73,10 +71,7 @@ const mockExpenses = [
     { id: 4, name: 'Lunch', amount: 12.00, category: 'Food', date: new Date().toISOString().split('T')[0] }
 ]
 
-// ============================================
-// [REQ 8] API FUNCTIONS
-// Each simulates a network request with 500ms delay
-// ============================================
+// API FUNCTIONS
 
 /**
  * Fetch all tasks

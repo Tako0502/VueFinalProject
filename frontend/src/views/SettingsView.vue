@@ -1,7 +1,6 @@
 <script setup>
 /**
  * SettingsView.vue - Settings Parent View
- * [REQ 5] Nested routes: Parent component with <router-view>
  */
 import { useRoute } from 'vue-router'
 
@@ -18,7 +17,6 @@ const route = useRoute()
 
     <!-- Settings Navigation -->
     <nav class="settings-nav">
-      <!-- [REQ 1] router-link with active class -->
       <router-link 
         to="/settings/profile" 
         class="nav-tab"
@@ -35,8 +33,6 @@ const route = useRoute()
       </router-link>
     </nav>
 
-    <!-- [REQ 5] Nested Router View -->
-    <!-- Child routes (/settings/profile, /settings/preferences) render here -->
     <div class="settings-content">
       <RouterView />
     </div>
@@ -44,7 +40,7 @@ const route = useRoute()
 </template>
 
 <style scoped>
-/* [REQ 9] Scoped CSS */
+/* Scoped CSS */
 .settings-view {
   max-width: 800px;
   margin: 0 auto;

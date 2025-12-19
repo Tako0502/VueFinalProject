@@ -1,8 +1,5 @@
 /**
  * useFocusTimer Composable
- * [REQ 4] Demonstrates lifecycle hooks (onMounted) and composable patterns
- * 
- * A Pomodoro-style focus timer with configurable work/break durations
  */
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 
@@ -17,9 +14,7 @@ export function useFocusTimer(options = {}) {
 
     const config = { ...defaultOptions, ...options }
 
-    // ============================================
-    // [REQ 3] Using ref for reactive state
-    // ============================================
+    // Using ref for reactive state
 
     const timeRemaining = ref(config.workDuration)
     const isRunning = ref(false)
@@ -29,9 +24,7 @@ export function useFocusTimer(options = {}) {
 
     let intervalId = null
 
-    // ============================================
-    // [REQ 3] Using computed for derived state
-    // ============================================
+    // Using computed for derived state
 
     // Format time as MM:SS
     const formattedTime = computed(() => {
@@ -66,9 +59,7 @@ export function useFocusTimer(options = {}) {
         return `${minutes}m`
     })
 
-    // ============================================
     // TIMER FUNCTIONS
-    // ============================================
 
     /**
      * Start the timer
@@ -200,9 +191,7 @@ export function useFocusTimer(options = {}) {
         }
     }
 
-    // ============================================
-    // [REQ 4] LIFECYCLE HOOKS
-    // ============================================
+    // LIFECYCLE HOOKS
 
     // Load saved focus time when composable is mounted
     onMounted(() => {
@@ -218,9 +207,7 @@ export function useFocusTimer(options = {}) {
         console.log('[useFocusTimer] Composable unmounted, cleaned up timer')
     })
 
-    // ============================================
     // RETURN PUBLIC API
-    // ============================================
 
     return {
         // State

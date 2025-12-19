@@ -1,8 +1,6 @@
 <script setup>
 /**
  * TheNavbar.vue - Navigation Component
- * [REQ 2] Demonstrates Props and component structure
- * [REQ 1] Uses v-if for conditional rendering based on auth state
  */
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
@@ -16,23 +14,20 @@ const userStore = useUserStore()
 // Initialize store on mount
 userStore.initialize()
 
-// [REQ 3] Computed property for checking authentication
 const isLoggedIn = computed(() => userStore.isAuthenticated)
 const userName = computed(() => userStore.user.name || 'Guest')
 
-// Navigation items with icon components
+// Navigation items
 const navItems = [
   { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
   { name: 'Planner', path: '/planner', icon: Calendar },
   { name: 'Settings', path: '/settings', icon: Settings }
 ]
 
-// Check if current route matches nav item
 const isActive = (path) => {
   return route.path.startsWith(path)
 }
 
-// Handle logout
 const handleLogout = () => {
   userStore.logout()
   router.push('/login')
@@ -49,17 +44,14 @@ const handleLogout = () => {
         <span class="logo-text">LifeOS</span>
       </router-link>
 
-      <!-- [REQ 1] v-if/else for conditional rendering -->
       <template v-if="isLoggedIn">
         <!-- Navigation Links -->
         <ul class="navbar__nav">
-          <!-- [REQ 1] v-for for iterating over nav items -->
           <li 
             v-for="item in navItems" 
             :key="item.path"
             class="navbar__item"
           >
-            <!-- [REQ 1] v-bind (:class) for dynamic classes -->
             <router-link 
               :to="item.path"
               class="navbar__link"
@@ -74,7 +66,6 @@ const handleLogout = () => {
         <!-- User Menu -->
         <div class="navbar__user">
           <span class="user-greeting">Hi, {{ userName }}</span>
-          <!-- [REQ 1] v-on (@click) for event handling -->
           <button @click="handleLogout" class="btn-logout">
             <LogOut :size="16" />
             <span>Logout</span>
@@ -93,7 +84,6 @@ const handleLogout = () => {
 </template>
 
 <style scoped>
-/* [REQ 9] Scoped CSS */
 .navbar {
   position: fixed;
   top: 0;

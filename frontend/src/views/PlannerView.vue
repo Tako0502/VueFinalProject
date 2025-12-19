@@ -1,7 +1,6 @@
 <script setup>
 /**
  * PlannerView.vue - Planner Overview
- * Shows a calendar-style view with links to specific dates
  */
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
@@ -34,7 +33,7 @@ const getFirstDayOfMonth = (month, year) => {
   return new Date(year, month, 1).getDay()
 }
 
-// [REQ 3] Computed - Generate calendar days
+// Computed - Generate calendar days
 const calendarDays = computed(() => {
   const days = []
   const daysInMonth = getDaysInMonth(currentMonth.value, currentYear.value)
@@ -122,7 +121,6 @@ const selectDate = (date) => {
 
       <!-- Day Headers -->
       <div class="calendar-header">
-        <!-- [REQ 1] v-for for day names -->
         <div 
           v-for="day in dayNames" 
           :key="day" 
@@ -134,7 +132,6 @@ const selectDate = (date) => {
 
       <!-- Calendar Grid -->
       <div class="calendar-grid">
-        <!-- [REQ 1] v-for for calendar days -->
         <div
           v-for="(item, index) in calendarDays"
           :key="index"
@@ -146,7 +143,6 @@ const selectDate = (date) => {
           }"
           @click="selectDate(item.date)"
         >
-          <!-- [REQ 1] v-if for conditional content -->
           <template v-if="item.day">
             <span class="day-number">{{ item.day }}</span>
             <span v-if="item.hasTask" class="task-indicator">
@@ -176,7 +172,7 @@ const selectDate = (date) => {
 </template>
 
 <style scoped>
-/* [REQ 9] Scoped CSS */
+/* Scoped CSS */
 .planner-view {
   max-width: 900px;
   margin: 0 auto;

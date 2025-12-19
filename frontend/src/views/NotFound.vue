@@ -1,7 +1,6 @@
 <script setup>
 /**
  * NotFound.vue - 404 Page
- * [REQ 5] Catch-all route for unmatched paths
  */
 import { useRouter } from 'vue-router'
 import { Home, ArrowLeft, Calendar, Settings } from 'lucide-vue-next'
@@ -34,7 +33,6 @@ const goBack = () => {
 
       <!-- Actions -->
       <div class="actions">
-        <!-- [REQ 1] v-on for click handlers -->
         <button @click="goHome" class="btn-primary">
           <Home :size="18" />
           Go to Dashboard
@@ -64,7 +62,7 @@ const goBack = () => {
 </template>
 
 <style scoped>
-/* [REQ 9] Scoped CSS with animations */
+/* Scoped CSS with animations */
 .not-found {
   min-height: 70vh;
   display: flex;

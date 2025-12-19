@@ -30,9 +30,9 @@ export const useTaskStore = defineStore('tasks', () => {
         return { total, completed, pending, percentage }
     })
 
-    
-    
-    
+
+
+
 
     async function loadTasks() {
         isLoading.value = true
@@ -54,7 +54,7 @@ export const useTaskStore = defineStore('tasks', () => {
 
         try {
             const dateTasks = await api.fetchTasksByDate(date)
-            
+
             dateTasks.forEach(task => {
                 const index = tasks.value.findIndex(t => t.id === task.id)
                 if (index > -1) {
@@ -137,7 +137,7 @@ export const useTaskStore = defineStore('tasks', () => {
     }
 
     function clearCompleted() {
-        
+
         const completedIds = completedTasks.value.map(t => t.id)
         completedIds.forEach(id => deleteTask(id))
     }

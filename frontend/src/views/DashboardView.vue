@@ -1,9 +1,6 @@
 <script setup>
 /**
  * DashboardView.vue - Main Hub
- * [REQ 5] Static route /dashboard
- * [REQ 8] Loading and Error states for API calls
- * [REQ 1] v-for, v-if, v-bind, v-on directives
  */
 import { ref, onMounted, inject, computed } from 'vue'
 import { useRouter } from 'vue-router'
@@ -29,7 +26,7 @@ const taskStore = useTaskStore()
 const showNotification = inject('showNotification', () => {})
 
 // ============================================
-// [REQ 8] LOADING AND ERROR STATES
+// LOADING AND ERROR STATES
 // ============================================
 const isLoading = ref(true)
 const error = ref(null)
@@ -45,25 +42,25 @@ const newTask = ref({
   priority: 'medium'
 })
 
-// [REQ 3] Computed properties
+// Computed properties
 const today = computed(() => new Date().toISOString().split('T')[0])
 const todaysTasks = computed(() => taskStore.getTasksByDate(today.value))
 const taskStats = computed(() => taskStore.taskStats)
 
 // ============================================
-// [REQ 8] DATA FETCHING WITH LOADING/ERROR
+// DATA FETCHING WITH LOADING/ERROR
 // ============================================
 onMounted(async () => {
   isLoading.value = true
   error.value = null
   
   try {
-    // [REQ 8] Fetch tasks from backend API
+    // Fetch tasks from backend API
     await taskStore.loadTasks()
     // Also load expenses for budget card
     await userStore.loadExpenses()
   } catch (err) {
-    // [REQ 8] Handle error state
+    // Handle error state
     error.value = 'Failed to load data. Please try again.'
     console.error('Error fetching data:', err)
   } finally {
@@ -139,14 +136,13 @@ const navigateToPlanner = () => {
       </div>
     </header>
 
-    <!-- [REQ 8] Loading State -->
-    <!-- [REQ 1] v-if for conditional rendering -->
+    <!-- Loading State -->
     <div v-if="isLoading" class="loading-state">
       <div class="spinner"></div>
       <p>Loading your dashboard...</p>
     </div>
 
-    <!-- [REQ 8] Error State -->
+    <!-- Error State -->
     <div v-else-if="error" class="error-state">
       <AlertTriangle class="error-icon" :size="48" />
       <p>{{ error }}</p>
@@ -208,7 +204,6 @@ const navigateToPlanner = () => {
           </div>
 
           <!-- Add Task Form -->
-          <!-- [REQ 1] v-if for conditional form display -->
           <div v-if="showAddTask" class="add-task-form">
             <BaseInput
               v-model="newTask.title"
@@ -226,7 +221,6 @@ const navigateToPlanner = () => {
             <div class="priority-select">
               <label class="priority-label">Priority</label>
               <div class="priority-options">
-                <!-- [REQ 1] v-for with v-model -->
                 <label 
                   v-for="p in ['low', 'medium', 'high']" 
                   :key="p"
@@ -249,7 +243,6 @@ const navigateToPlanner = () => {
 
           <!-- Task List -->
           <div class="task-list">
-            <!-- [REQ 1] v-if for empty state -->
             <div v-if="todaysTasks.length === 0" class="empty-tasks">
               <PartyPopper class="empty-icon" :size="48" />
               <p>No tasks for today!</p>
@@ -258,8 +251,6 @@ const navigateToPlanner = () => {
               </button>
             </div>
 
-            <!-- [REQ 1] v-for for task list -->
-            <!-- [REQ 9] Vue transition-group for list animation -->
             <TransitionGroup name="list" tag="div" class="tasks-container">
               <TaskItem
                 v-for="task in todaysTasks"
@@ -291,7 +282,6 @@ const navigateToPlanner = () => {
 
           <!-- Budget Card -->
           <section class="section">
-            <!-- [REQ 1] v-if/else for form toggle -->
             <BudgetForm 
               v-if="showBudgetForm"
               @submit="handleExpenseSubmit"
@@ -310,7 +300,7 @@ const navigateToPlanner = () => {
 </template>
 
 <style scoped>
-/* [REQ 9] Scoped CSS */
+/* Scoped CSS */
 .dashboard {
   max-width: 1200px;
   margin: 0 auto;
@@ -607,7 +597,7 @@ const navigateToPlanner = () => {
   gap: 1.5rem;
 }
 
-/* [REQ 9] List transition animations */
+/* List transition animations */
 .list-enter-active,
 .list-leave-active {
   transition: all 0.4s ease;

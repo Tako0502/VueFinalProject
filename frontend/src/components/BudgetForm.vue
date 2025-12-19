@@ -148,14 +148,7 @@ const handleSubmit = async () => {
     }
     
     userStore.addExpense(expense)
-    
-    
-    showNotification(`Added expense: ${expense.name} ($${expense.amount})`, 'success')
-    
-    
     emit('submit', expense)
-    
-    
     form.name = ''
     form.amount = ''
     form.category = 'General'
@@ -185,11 +178,8 @@ const handleCancel = () => {
       Add New Expense
     </h3>
     
-    <!-- [REQ 1] v-on (@submit.prevent) for form submission -->
     <form @submit.prevent="handleSubmit" class="form">
       <!-- Expense Name Input -->
-      <!-- [REQ 1] v-model for two-way binding -->
-      <!-- [REQ 2] Using BaseInput component with props -->
       <BaseInput
         v-model="form.name"
         label="Expense Name"
@@ -216,9 +206,7 @@ const handleCancel = () => {
       <div class="form-group">
         <label class="input-label">Category</label>
         <div class="select-wrapper">
-          <!-- [REQ 1] v-model for select binding -->
           <select v-model="form.category" class="select-field">
-            <!-- [REQ 1] v-for for iterating options -->
             <option 
               v-for="category in categories" 
               :key="category"
@@ -230,8 +218,6 @@ const handleCancel = () => {
         </div>
       </div>
       
-      <!-- [REQ 7] Error Summary -->
-      <!-- [REQ 1] v-if for conditional rendering -->
       <div v-if="errors.name || errors.amount" class="error-summary">
         <p>Please fix the errors above before submitting.</p>
       </div>
@@ -250,7 +236,6 @@ const handleCancel = () => {
           class="btn-submit"
           :disabled="isSubmitting"
         >
-          <!-- [REQ 1] v-if/else for loading state -->
           <span v-if="isSubmitting">Adding...</span>
           <span v-else>Add Expense</span>
         </button>
@@ -260,7 +245,7 @@ const handleCancel = () => {
 </template>
 
 <style scoped>
-/* [REQ 9] Scoped CSS */
+
 .budget-form {
   background: var(--surface-color);
   border-radius: var(--radius);

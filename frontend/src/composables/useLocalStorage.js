@@ -1,8 +1,5 @@
 /**
  * useLocalStorage Composable
- * [REQ 3] Demonstrates watchEffect for syncing state to localStorage
- * 
- * A composable for reactive localStorage persistence
  */
 import { ref, watchEffect } from 'vue'
 
@@ -17,7 +14,7 @@ export function useLocalStorage(key, defaultValue) {
     const storedValue = localStorage.getItem(key)
     const data = ref(storedValue ? JSON.parse(storedValue) : defaultValue)
 
-    // [REQ 3] watchEffect - Automatically syncs to localStorage
+    // watchEffect - Automatically syncs to localStorage
     // This runs immediately and whenever data.value changes
     watchEffect(() => {
         localStorage.setItem(key, JSON.stringify(data.value))
@@ -47,7 +44,7 @@ export function useLocalStorageList(key) {
     const storedValue = localStorage.getItem(key)
     const items = ref(storedValue ? JSON.parse(storedValue) : [])
 
-    // [REQ 3] watchEffect syncs list to localStorage whenever it changes
+    // watchEffect syncs list to localStorage whenever it changes
     watchEffect(() => {
         localStorage.setItem(key, JSON.stringify(items.value))
     })

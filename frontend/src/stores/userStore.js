@@ -64,7 +64,7 @@ export const useUserStore = defineStore('user', () => {
             user.value = data.user
             budgetLimit.value = data.user.budget_limit
             isAuthenticated.value = true
-    
+
             await loadExpenses()
             return true
         } catch (err) {
@@ -91,7 +91,7 @@ export const useUserStore = defineStore('user', () => {
             budgetLimit.value = profile.budget_limit
             isAuthenticated.value = true
         } catch (err) {
-    
+
             logout()
         }
     }

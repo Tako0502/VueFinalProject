@@ -1,8 +1,6 @@
 <script setup>
 /**
  * ProfileSettings.vue - User Profile Settings
- * [REQ 5] Nested route: /settings/profile
- * [REQ 7] Form with validation
  */
 import { ref, reactive, inject } from 'vue'
 import { useUserStore } from '@/stores/userStore'
@@ -11,7 +9,7 @@ import BaseInput from '@/components/BaseInput.vue'
 const userStore = useUserStore()
 const showNotification = inject('showNotification', () => {})
 
-// [REQ 3] Reactive form data
+// Reactive form data
 const form = reactive({
   name: userStore.user.name || '',
   email: userStore.user.email || ''
@@ -24,7 +22,7 @@ const errors = ref({
 
 const isSaving = ref(false)
 
-// [REQ 7] Validation
+// Validation
 const validateForm = () => {
   let isValid = true
   errors.value = { name: '', email: '' }
@@ -86,9 +84,9 @@ const handleReset = () => {
       Update your personal information
     </p>
 
-    <!-- [REQ 1] v-on for form submit -->
+    
     <form @submit.prevent="handleSave" class="profile-form">
-      <!-- Avatar -->
+      
       <div class="avatar-section">
         <div class="avatar">
           {{ form.name.charAt(0).toUpperCase() || '👤' }}
@@ -100,7 +98,6 @@ const handleReset = () => {
       </div>
 
       <!-- Name Input -->
-      <!-- [REQ 1] v-model for two-way binding -->
       <BaseInput
         v-model="form.name"
         label="Full Name"
@@ -135,7 +132,6 @@ const handleReset = () => {
           class="btn-save"
           :disabled="isSaving"
         >
-          <!-- [REQ 1] v-if/else -->
           <span v-if="isSaving">Saving...</span>
           <span v-else>Save Changes</span>
         </button>
@@ -145,7 +141,7 @@ const handleReset = () => {
 </template>
 
 <style scoped>
-/* [REQ 9] Scoped CSS */
+/* Scoped CSS */
 .section-title {
   font-size: 1.25rem;
   color: var(--text-primary);

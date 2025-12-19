@@ -17,9 +17,9 @@ const props = defineProps({
 })
 
 const emit = defineEmits([
-  'toggle',  
-  'delete',  
-  'edit'     
+  'toggle',
+  'delete',
+  'edit'
 ])
 
 const priorityClass = computed(() => {

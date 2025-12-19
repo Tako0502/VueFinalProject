@@ -89,7 +89,7 @@ const handleFocus = (event) => {
 </template>
 
 <style scoped>
-/* [REQ 9] Scoped CSS */
+/* Scoped CSS */
 .input-wrapper {
   margin-bottom: 1rem;
 }
@@ -167,7 +167,7 @@ const handleFocus = (event) => {
   margin-top: 0.5rem;
 }
 
-/* [REQ 9] Fade transition for error message */
+/* Fade transition */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s ease, transform 0.2s ease;

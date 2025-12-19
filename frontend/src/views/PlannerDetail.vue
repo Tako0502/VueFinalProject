@@ -1,13 +1,11 @@
 <script setup>
 /**
  * PlannerDetail.vue - Dynamic Route View
- * [REQ 5] Dynamic route: /planner/:date
- * Shows tasks for a specific date using route params
  */
 import { ref, computed, onMounted, watch, inject } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useTaskStore } from '@/stores/taskStore'
-import { fetchTasksByDate } from '@/services/mockApi'
+
 import TaskItem from '@/components/TaskItem.vue'
 import BaseInput from '@/components/BaseInput.vue'
 
@@ -16,7 +14,7 @@ const router = useRouter()
 const taskStore = useTaskStore()
 const showNotification = inject('showNotification', () => {})
 
-// [REQ 8] Loading and error states
+// Loading and error states
 const isLoading = ref(false)
 const error = ref(null)
 
@@ -28,8 +26,8 @@ const newTask = ref({
   priority: 'medium'
 })
 
-// [REQ 5] Get date from route params
-// [REQ 3] Computed properties
+// Get date from route params
+// Computed properties
 const currentDate = computed(() => route.params.date)
 
 const formattedDate = computed(() => {
@@ -66,17 +64,14 @@ const dateStats = computed(() => {
   }
 })
 
-// [REQ 8] Fetch tasks on mount and when date changes
+// Fetch tasks on mount and when date changes
 const fetchData = async () => {
   isLoading.value = true
   error.value = null
   
   try {
-    // Load from localStorage
-    taskStore.loadTasks()
-    
-    // [REQ 8] Simulated API call with delay
-    await fetchTasksByDate(currentDate.value)
+    // Load tasks for date
+    await taskStore.loadTasksByDate(currentDate.value)
     
   } catch (err) {
     error.value = 'Failed to load tasks for this date'
@@ -154,14 +149,13 @@ const handleDeleteTask = (taskId) => {
       </button>
       
       <div class="date-display">
-        <!-- [REQ 1] v-bind (:class) for dynamic styling -->
         <h1 
           class="date-title"
           :class="{ 'date-title--today': isToday, 'date-title--past': isPast }"
         >
+        >
           {{ formattedDate }}
         </h1>
-        <!-- [REQ 1] v-if for conditional badges -->
         <span v-if="isToday" class="today-badge">Today</span>
         <span v-else-if="isPast" class="past-badge">Past</span>
       </div>
@@ -187,13 +181,13 @@ const handleDeleteTask = (taskId) => {
       </div>
     </div>
 
-    <!-- [REQ 8] Loading State -->
+    <!-- Loading State -->
     <div v-if="isLoading" class="loading-state">
       <div class="spinner"></div>
       <p>Loading tasks...</p>
     </div>
 
-    <!-- [REQ 8] Error State -->
+    <!-- Error State -->
     <div v-else-if="error" class="error-state">
       <p>{{ error }}</p>
       <button @click="fetchData" class="btn-retry">Retry</button>
@@ -211,7 +205,6 @@ const handleDeleteTask = (taskId) => {
         </button>
 
         <!-- Add Task Form -->
-        <!-- [REQ 1] v-if for conditional form -->
         <div v-if="showAddTask" class="add-form">
           <BaseInput
             v-model="newTask.title"
@@ -261,7 +254,6 @@ const handleDeleteTask = (taskId) => {
         </div>
 
         <!-- Task List with Animations -->
-        <!-- [REQ 9] TransitionGroup for list animations -->
         <TransitionGroup v-else name="list" tag="div" class="task-list">
           <TaskItem
             v-for="task in dateTasks"
@@ -284,7 +276,7 @@ const handleDeleteTask = (taskId) => {
 </template>
 
 <style scoped>
-/* [REQ 9] Scoped CSS */
+/* Scoped CSS */
 .planner-detail {
   max-width: 800px;
   margin: 0 auto;

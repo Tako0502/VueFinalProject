@@ -1,6 +1,5 @@
 /**
  * API Service - Real Backend Integration
- * Connects Vue frontend to Python FastAPI backend
  */
 
 const DEFAULT_DEV_API_BASE_URL = 'http://localhost:8000'
@@ -62,9 +61,7 @@ async function apiRequest(endpoint, options = {}) {
     return data
 }
 
-// ============================================
 // AUTHENTICATION API
-// ============================================
 
 /**
  * Register a new user
@@ -123,9 +120,7 @@ export async function fetchBudgetSummary() {
     return apiRequest('/users/me/budget')
 }
 
-// ============================================
 // TASKS API
-// ============================================
 
 /**
  * Fetch all tasks
@@ -179,9 +174,7 @@ export async function deleteTask(id) {
     })
 }
 
-// ============================================
 // EXPENSES API
-// ============================================
 
 /**
  * Fetch all expenses
@@ -225,8 +218,6 @@ export async function clearAllExpenses() {
     })
 }
 
-// ============================================
 // UTILITY EXPORTS
-// ============================================
 
 export { getToken, setToken, removeToken }
