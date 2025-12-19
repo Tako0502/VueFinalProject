@@ -197,7 +197,6 @@ const handleEdit = () => {
   font-size: 0.75rem;
 }
 
-/* Priority Badges */
 .priority-badge {
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
@@ -224,7 +223,6 @@ const handleEdit = () => {
   color: var(--text-secondary);
 }
 
-/* Action Buttons */
 .task-actions {
   display: flex;
   gap: 0.5rem;

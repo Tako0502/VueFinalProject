@@ -1,7 +1,4 @@
 <script setup>
-/**
- * PlannerView.vue - Planner Overview
- */
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useTaskStore } from '@/stores/taskStore'
@@ -9,42 +6,34 @@ import { useTaskStore } from '@/stores/taskStore'
 const router = useRouter()
 const taskStore = useTaskStore()
 
-// Current date info
 const today = new Date()
 const currentMonth = ref(today.getMonth())
 const currentYear = ref(today.getFullYear())
 
-// Month names
 const monthNames = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
 ]
 
-// Day names
 const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-// Get days in month
 const getDaysInMonth = (month, year) => {
   return new Date(year, month + 1, 0).getDate()
 }
 
-// Get first day of month (0 = Sunday)
 const getFirstDayOfMonth = (month, year) => {
   return new Date(year, month, 1).getDay()
 }
 
-// Computed - Generate calendar days
 const calendarDays = computed(() => {
   const days = []
   const daysInMonth = getDaysInMonth(currentMonth.value, currentYear.value)
   const firstDay = getFirstDayOfMonth(currentMonth.value, currentYear.value)
   
-  // Add empty slots for days before first of month
   for (let i = 0; i < firstDay; i++) {
     days.push({ day: null, date: null })
   }
   
-  // Add actual days
   for (let day = 1; day <= daysInMonth; day++) {
     const date = `${currentYear.value}-${String(currentMonth.value + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
     const tasks = taskStore.getTasksByDate(date)
@@ -60,7 +49,6 @@ const calendarDays = computed(() => {
   return days
 })
 
-// Navigation
 const previousMonth = () => {
   if (currentMonth.value === 0) {
     currentMonth.value = 11
@@ -84,7 +72,6 @@ const goToToday = () => {
   currentYear.value = today.getFullYear()
 }
 
-// Navigate to specific date
 const selectDate = (date) => {
   if (date) {
     router.push(`/planner/${date}`)
@@ -104,9 +91,7 @@ const selectDate = (date) => {
       </button>
     </header>
 
-    <!-- Calendar -->
     <div class="calendar-container">
-      <!-- Month Navigation -->
       <div class="calendar-nav">
         <button @click="previousMonth" class="btn-nav">
           ← Previous
@@ -119,7 +104,6 @@ const selectDate = (date) => {
         </button>
       </div>
 
-      <!-- Day Headers -->
       <div class="calendar-header">
         <div 
           v-for="day in dayNames" 
@@ -130,7 +114,6 @@ const selectDate = (date) => {
         </div>
       </div>
 
-      <!-- Calendar Grid -->
       <div class="calendar-grid">
         <div
           v-for="(item, index) in calendarDays"
@@ -153,7 +136,6 @@ const selectDate = (date) => {
       </div>
     </div>
 
-    <!-- Quick Stats -->
     <div class="planner-stats">
       <div class="stat-item">
         <span class="stat-value">{{ taskStore.taskStats.total }}</span>
@@ -172,7 +154,6 @@ const selectDate = (date) => {
 </template>
 
 <style scoped>
-/* Scoped CSS */
 .planner-view {
   max-width: 900px;
   margin: 0 auto;
@@ -209,7 +190,6 @@ const selectDate = (date) => {
   background: var(--primary-hover);
 }
 
-/* Calendar */
 .calendar-container {
   background: var(--surface-color);
   border-radius: var(--radius);
@@ -315,7 +295,6 @@ const selectDate = (date) => {
   margin-top: 0.25rem;
 }
 
-/* Stats */
 .planner-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

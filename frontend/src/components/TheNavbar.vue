@@ -1,7 +1,4 @@
 <script setup>
-/**
- * TheNavbar.vue - Navigation Component
- */
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
@@ -11,13 +8,11 @@ const router = useRouter()
 const route = useRoute()
 const userStore = useUserStore()
 
-// Initialize store on mount
 userStore.initialize()
 
 const isLoggedIn = computed(() => userStore.isAuthenticated)
 const userName = computed(() => userStore.user.name || 'Guest')
 
-// Navigation items
 const navItems = [
   { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
   { name: 'Planner', path: '/planner', icon: Calendar },
@@ -35,17 +30,14 @@ const handleLogout = () => {
 </script>
 
 <template>
-  <!-- [REQ 1] v-bind for dynamic class binding -->
   <nav class="navbar" :class="{ 'navbar--scrolled': true }">
     <div class="navbar__container">
-      <!-- Logo -->
       <router-link to="/dashboard" class="navbar__logo">
         <Target class="logo-icon" :size="24" />
         <span class="logo-text">LifeOS</span>
       </router-link>
 
       <template v-if="isLoggedIn">
-        <!-- Navigation Links -->
         <ul class="navbar__nav">
           <li 
             v-for="item in navItems" 
@@ -63,7 +55,6 @@ const handleLogout = () => {
           </li>
         </ul>
 
-        <!-- User Menu -->
         <div class="navbar__user">
           <span class="user-greeting">Hi, {{ userName }}</span>
           <button @click="handleLogout" class="btn-logout">
@@ -73,7 +64,6 @@ const handleLogout = () => {
         </div>
       </template>
 
-      <!-- Not logged in state -->
       <template v-else>
         <router-link to="/login" class="navbar__login-btn">
           Login
@@ -201,7 +191,6 @@ const handleLogout = () => {
   background: var(--primary-hover);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .nav-text {
     display: none;

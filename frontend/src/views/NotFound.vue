@@ -1,7 +1,5 @@
 <script setup>
-/**
- * NotFound.vue - 404 Page
- */
+
 import { useRouter } from 'vue-router'
 import { Home, ArrowLeft, Calendar, Settings } from 'lucide-vue-next'
 
@@ -19,7 +17,6 @@ const goBack = () => {
 <template>
   <div class="not-found">
     <div class="not-found-content">
-      <!-- 404 Illustration -->
       <div class="error-code">
         <span class="digit">4</span>
         <span class="digit zero">0</span>
@@ -31,7 +28,6 @@ const goBack = () => {
         Oops! The page you're looking for doesn't exist or has been moved.
       </p>
 
-      <!-- Actions -->
       <div class="actions">
         <button @click="goHome" class="btn-primary">
           <Home :size="18" />
@@ -43,7 +39,6 @@ const goBack = () => {
         </button>
       </div>
 
-      <!-- Helpful Links -->
       <div class="helpful-links">
         <p>Or try these pages:</p>
         <div class="links">
@@ -62,7 +57,6 @@ const goBack = () => {
 </template>
 
 <style scoped>
-/* Scoped CSS with animations */
 .not-found {
   min-height: 70vh;
   display: flex;

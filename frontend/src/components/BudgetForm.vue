@@ -179,7 +179,6 @@ const handleCancel = () => {
     </h3>
     
     <form @submit.prevent="handleSubmit" class="form">
-      <!-- Expense Name Input -->
       <BaseInput
         v-model="form.name"
         label="Expense Name"
@@ -190,7 +189,6 @@ const handleCancel = () => {
         @blur="validateField('name')"
       />
       
-      <!-- Amount Input -->
       <BaseInput
         v-model="form.amount"
         type="number"
@@ -202,7 +200,6 @@ const handleCancel = () => {
         @blur="validateField('amount')"
       />
       
-      <!-- Category Select -->
       <div class="form-group">
         <label class="input-label">Category</label>
         <div class="select-wrapper">
@@ -222,7 +219,6 @@ const handleCancel = () => {
         <p>Please fix the errors above before submitting.</p>
       </div>
       
-      <!-- Form Actions -->
       <div class="form-actions">
         <button 
           type="button" 

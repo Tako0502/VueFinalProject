@@ -1,20 +1,16 @@
 <script setup>
-/**
- * DashboardView.vue - Main Hub
- */
+
 import { ref, onMounted, inject, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
 import { useTaskStore } from '@/stores/taskStore'
 
-// Components
 import TaskItem from '@/components/TaskItem.vue'
 import BudgetCard from '@/components/BudgetCard.vue'
 import FocusTimer from '@/components/FocusTimer.vue'
 import BudgetForm from '@/components/BudgetForm.vue'
 import BaseInput from '@/components/BaseInput.vue'
 
-// Icons
 import { 
   ClipboardList, CheckCircle, Clock, TrendingUp, FileEdit, 
   Pin, FileText, PartyPopper, AlertTriangle, Plus, X
@@ -25,42 +21,30 @@ const userStore = useUserStore()
 const taskStore = useTaskStore()
 const showNotification = inject('showNotification', () => {})
 
-// ============================================
-// LOADING AND ERROR STATES
-// ============================================
 const isLoading = ref(true)
 const error = ref(null)
 
-// UI State
 const showAddTask = ref(false)
 const showBudgetForm = ref(false)
 
-// New task form
 const newTask = ref({
   title: '',
   description: '',
   priority: 'medium'
 })
 
-// Computed properties
 const today = computed(() => new Date().toISOString().split('T')[0])
 const todaysTasks = computed(() => taskStore.getTasksByDate(today.value))
 const taskStats = computed(() => taskStore.taskStats)
 
-// ============================================
-// DATA FETCHING WITH LOADING/ERROR
-// ============================================
 onMounted(async () => {
   isLoading.value = true
   error.value = null
   
   try {
-    // Fetch tasks from backend API
     await taskStore.loadTasks()
-    // Also load expenses for budget card
     await userStore.loadExpenses()
   } catch (err) {
-    // Handle error state
     error.value = 'Failed to load data. Please try again.'
     console.error('Error fetching data:', err)
   } finally {
@@ -68,9 +52,6 @@ onMounted(async () => {
   }
 })
 
-// ============================================
-// EVENT HANDLERS
-// ============================================
 
 const handleAddTask = () => {
   if (!newTask.value.title.trim()) {
@@ -87,7 +68,6 @@ const handleAddTask = () => {
   
   showNotification('Task added successfully!', 'success')
   
-  // Reset form
   newTask.value = { title: '', description: '', priority: 'medium' }
   showAddTask.value = false
 }
@@ -102,7 +82,6 @@ const handleDeleteTask = (taskId) => {
 }
 
 const handleEditTask = (task) => {
-  // Navigate to planner with task date
   router.push(`/planner/${task.date}`)
 }
 
@@ -121,7 +100,6 @@ const navigateToPlanner = () => {
 
 <template>
   <div class="dashboard">
-    <!-- Header -->
     <header class="dashboard-header">
       <div class="header-content">
         <h1 class="page-title">
@@ -136,13 +114,11 @@ const navigateToPlanner = () => {
       </div>
     </header>
 
-    <!-- Loading State -->
     <div v-if="isLoading" class="loading-state">
       <div class="spinner"></div>
       <p>Loading your dashboard...</p>
     </div>
 
-    <!-- Error State -->
     <div v-else-if="error" class="error-state">
       <AlertTriangle class="error-icon" :size="48" />
       <p>{{ error }}</p>
@@ -151,9 +127,7 @@ const navigateToPlanner = () => {
       </button>
     </div>
 
-    <!-- Main Content -->
     <template v-else>
-      <!-- Stats Overview -->
       <div class="stats-grid">
         <div class="stat-card">
           <ClipboardList class="stat-icon" :size="32" />
@@ -185,9 +159,7 @@ const navigateToPlanner = () => {
         </div>
       </div>
 
-      <!-- Main Grid -->
       <div class="dashboard-grid">
-        <!-- Tasks Section -->
         <section class="section tasks-section">
           <div class="section-header">
             <h2 class="section-title">
@@ -203,7 +175,6 @@ const navigateToPlanner = () => {
             </button>
           </div>
 
-          <!-- Add Task Form -->
           <div v-if="showAddTask" class="add-task-form">
             <BaseInput
               v-model="newTask.title"
@@ -241,7 +212,6 @@ const navigateToPlanner = () => {
             </button>
           </div>
 
-          <!-- Task List -->
           <div class="task-list">
             <div v-if="todaysTasks.length === 0" class="empty-tasks">
               <PartyPopper class="empty-icon" :size="48" />
@@ -263,7 +233,6 @@ const navigateToPlanner = () => {
             </TransitionGroup>
           </div>
 
-          <!-- View All Link -->
           <button 
             v-if="todaysTasks.length > 0"
             @click="navigateToPlanner"
@@ -273,14 +242,11 @@ const navigateToPlanner = () => {
           </button>
         </section>
 
-        <!-- Right Column -->
         <div class="right-column">
-          <!-- Focus Timer -->
           <section class="section">
             <FocusTimer />
           </section>
 
-          <!-- Budget Card -->
           <section class="section">
             <BudgetForm 
               v-if="showBudgetForm"
@@ -300,7 +266,6 @@ const navigateToPlanner = () => {
 </template>
 
 <style scoped>
-/* Scoped CSS */
 .dashboard {
   max-width: 1200px;
   margin: 0 auto;
@@ -344,7 +309,6 @@ const navigateToPlanner = () => {
   color: var(--text-primary);
 }
 
-/* Loading & Error States */
 .loading-state,
 .error-state {
   display: flex;
@@ -375,7 +339,6 @@ const navigateToPlanner = () => {
   cursor: pointer;
 }
 
-/* Stats Grid */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -421,7 +384,6 @@ const navigateToPlanner = () => {
 .stat-card--warning .stat-value { color: var(--warning-color); }
 .stat-card--info .stat-value { color: var(--primary-color); }
 
-/* Dashboard Grid */
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr 380px;
@@ -466,7 +428,6 @@ const navigateToPlanner = () => {
   background: var(--primary-hover);
 }
 
-/* Add Task Form */
 .add-task-form {
   background: var(--surface-color);
   border-radius: var(--radius);
@@ -532,7 +493,6 @@ const navigateToPlanner = () => {
   background: #16a34a;
 }
 
-/* Task List */
 .task-list {
   min-height: 200px;
 }
@@ -590,14 +550,12 @@ const navigateToPlanner = () => {
   background: rgba(99, 102, 241, 0.1);
 }
 
-/* Right Column */
 .right-column {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
 
-/* List transition animations */
 .list-enter-active,
 .list-leave-active {
   transition: all 0.4s ease;
@@ -617,7 +575,6 @@ const navigateToPlanner = () => {
   transition: transform 0.4s ease;
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
   .dashboard-grid {
     grid-template-columns: 1fr;

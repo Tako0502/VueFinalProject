@@ -56,7 +56,6 @@ const recentExpenses = computed(() => {
 
 <template>
   <div class="budget-card">
-    <!-- Header -->
     <div class="budget-header">
       <h3 class="budget-title">
         <Wallet class="title-icon" :size="20" />
@@ -70,7 +69,6 @@ const recentExpenses = computed(() => {
       </span>
     </div>
 
-    <!-- Main Amount Display -->
     <div class="budget-amount">
       <div class="amount-remaining">
         <span class="amount-label">Remaining</span>
@@ -86,7 +84,6 @@ const recentExpenses = computed(() => {
       </div>
     </div>
 
-    <!-- Progress Bar -->
     <div class="progress-container">
       <div class="progress-bar">
         <div 
@@ -100,9 +97,7 @@ const recentExpenses = computed(() => {
       <span class="progress-text">{{ percentage }}% used</span>
     </div>
 
-    <!-- [REQ 1] v-if for conditional rendering -->
     <template v-if="showDetails">
-      <!-- Stats Row -->
       <div class="budget-stats">
         <div class="stat">
           <span class="stat-label">Spent</span>
@@ -118,7 +113,6 @@ const recentExpenses = computed(() => {
         </div>
       </div>
 
-      <!-- Recent Expenses -->
       <div v-if="recentExpenses.length > 0" class="recent-expenses">
         <h4 class="section-title">Recent Expenses</h4>
         <ul class="expense-list">
@@ -135,7 +129,6 @@ const recentExpenses = computed(() => {
         </ul>
       </div>
 
-      <!-- Empty state -->
       <div v-else class="empty-expenses">
         <p>No expenses recorded yet</p>
       </div>

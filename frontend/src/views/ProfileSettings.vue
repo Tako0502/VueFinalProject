@@ -1,7 +1,4 @@
 <script setup>
-/**
- * ProfileSettings.vue - User Profile Settings
- */
 import { ref, reactive, inject } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import BaseInput from '@/components/BaseInput.vue'
@@ -9,7 +6,6 @@ import BaseInput from '@/components/BaseInput.vue'
 const userStore = useUserStore()
 const showNotification = inject('showNotification', () => {})
 
-// Reactive form data
 const form = reactive({
   name: userStore.user.name || '',
   email: userStore.user.email || ''
@@ -22,7 +18,6 @@ const errors = ref({
 
 const isSaving = ref(false)
 
-// Validation
 const validateForm = () => {
   let isValid = true
   errors.value = { name: '', email: '' }
@@ -46,14 +41,12 @@ const validateForm = () => {
   return isValid
 }
 
-// Save profile
 const handleSave = async () => {
   if (!validateForm()) return
   
   isSaving.value = true
   
   try {
-    // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 500))
     
     userStore.updateProfile({
@@ -69,7 +62,6 @@ const handleSave = async () => {
   }
 }
 
-// Reset form
 const handleReset = () => {
   form.name = userStore.user.name || ''
   form.email = userStore.user.email || ''
@@ -97,7 +89,6 @@ const handleReset = () => {
         </div>
       </div>
 
-      <!-- Name Input -->
       <BaseInput
         v-model="form.name"
         label="Full Name"
@@ -107,7 +98,6 @@ const handleReset = () => {
         :required="true"
       />
 
-      <!-- Email Input -->
       <BaseInput
         v-model="form.email"
         type="email"
@@ -118,7 +108,6 @@ const handleReset = () => {
         :required="true"
       />
 
-      <!-- Form Actions -->
       <div class="form-actions">
         <button 
           type="button" 
@@ -141,7 +130,6 @@ const handleReset = () => {
 </template>
 
 <style scoped>
-/* Scoped CSS */
 .section-title {
   font-size: 1.25rem;
   color: var(--text-primary);

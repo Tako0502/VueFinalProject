@@ -89,7 +89,6 @@ const handleFocus = (event) => {
 </template>
 
 <style scoped>
-/* Scoped CSS */
 .input-wrapper {
   margin-bottom: 1rem;
 }
@@ -149,7 +148,6 @@ const handleFocus = (event) => {
   color: var(--text-secondary);
 }
 
-/* Error state */
 .has-error .input-field {
   border-color: var(--danger-color);
 }
@@ -167,7 +165,6 @@ const handleFocus = (event) => {
   margin-top: 0.5rem;
 }
 
-/* Fade transition */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s ease, transform 0.2s ease;

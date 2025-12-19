@@ -1,7 +1,5 @@
 <script setup>
-/**
- * LoginView.vue - Login/Register Page
- */
+
 import { ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
@@ -12,17 +10,14 @@ const router = useRouter()
 const route = useRoute()
 const userStore = useUserStore()
 
-// Toggle between login and register mode
 const isRegisterMode = ref(false)
 
-// Reactive form data
 const form = reactive({
   name: '',
   email: '',
   password: ''
 })
 
-// Ref for errors and loading
 const errors = ref({
   name: '',
   email: '',
@@ -31,7 +26,6 @@ const errors = ref({
 const isLoading = ref(false)
 const formError = ref('')
 
-// Validate form
 const validateForm = () => {
   let isValid = true
   errors.value = { name: '', email: '', password: '' }
@@ -60,7 +54,6 @@ const validateForm = () => {
   return isValid
 }
 
-// Handle form submission (login or register)
 const handleSubmit = async () => {
   if (!validateForm()) return
   
@@ -71,14 +64,12 @@ const handleSubmit = async () => {
     let success
     
     if (isRegisterMode.value) {
-      // Register new user
       success = await userStore.register({
         name: form.name,
         email: form.email,
         password: form.password
       })
     } else {
-      // Login existing user
       success = await userStore.login({
         email: form.email,
         password: form.password
@@ -86,7 +77,6 @@ const handleSubmit = async () => {
     }
     
     if (success) {
-      // Redirect to intended destination or dashboard
       const redirectPath = route.query.redirect || '/dashboard'
       router.push(redirectPath)
     } else {
@@ -99,7 +89,6 @@ const handleSubmit = async () => {
   }
 }
 
-// Toggle between login and register
 const toggleMode = () => {
   isRegisterMode.value = !isRegisterMode.value
   formError.value = ''
@@ -110,7 +99,6 @@ const toggleMode = () => {
 <template>
   <div class="login-view">
     <div class="login-container">
-      <!-- Logo -->
       <div class="login-header">
         <div class="logo">
           <Target class="logo-icon" :size="40" />
@@ -119,7 +107,6 @@ const toggleMode = () => {
         <p class="tagline">Your Personal Productivity Dashboard</p>
       </div>
 
-      <!-- Login/Register Form -->
       <div class="login-card">
         <h2 class="card-title">{{ isRegisterMode ? 'Create Account' : 'Welcome Back' }}</h2>
         <p class="card-subtitle">
@@ -131,7 +118,6 @@ const toggleMode = () => {
             {{ formError }}
           </div>
 
-          <!-- Name Input (for registration) -->
           <BaseInput
             v-if="isRegisterMode"
             v-model="form.name"
@@ -142,7 +128,6 @@ const toggleMode = () => {
             :required="true"
           />
 
-          <!-- Email Input -->
           <BaseInput
             v-model="form.email"
             type="email"
@@ -153,7 +138,6 @@ const toggleMode = () => {
             :required="true"
           />
 
-          <!-- Password Input -->
           <BaseInput
             v-model="form.password"
             type="password"
@@ -164,7 +148,6 @@ const toggleMode = () => {
             :required="true"
           />
 
-          <!-- Submit Button -->
           <button 
             type="submit" 
             class="btn-login"
@@ -175,7 +158,6 @@ const toggleMode = () => {
           </button>
         </form>
 
-        <!-- Toggle Login/Register -->
         <p class="toggle-mode">
           {{ isRegisterMode ? 'Already have an account?' : "Don't have an account?" }}
           <button type="button" @click="toggleMode" class="toggle-btn">
@@ -184,7 +166,6 @@ const toggleMode = () => {
         </p>
       </div>
 
-      <!-- Footer -->
       <p class="login-footer">
         LifeOS - Student Productivity Dashboard
       </p>
@@ -193,7 +174,6 @@ const toggleMode = () => {
 </template>
 
 <style scoped>
-
 .login-view {
   min-height: 100vh;
   display: flex;

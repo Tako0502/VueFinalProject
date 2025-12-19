@@ -1,8 +1,4 @@
 <script setup>
-/**
- * App.vue - Root Component
- * Contains the main layout structure with navigation and router view
- */
 import { provide, ref } from 'vue'
 import TheNavbar from '@/components/TheNavbar.vue'
 import NotificationToast from '@/components/NotificationToast.vue'
@@ -13,16 +9,13 @@ const notification = ref({
   type: 'info'
 })
 
-// Function to show notifications from anywhere in the app
 const showNotification = (message, type = 'info') => {
   notification.value = { show: true, message, type }
-  // Auto-hide after 3 seconds
   setTimeout(() => {
     notification.value.show = false
   }, 3000)
 }
 
-// Provide notification function to all child components
 provide('showNotification', showNotification)
 </script>
 
@@ -30,7 +23,6 @@ provide('showNotification', showNotification)
   <div class="app-container">
     <TheNavbar />
     
-    <!-- Main content area with router view -->
     <main class="main-content">
       <RouterView v-slot="{ Component }">
         <Transition name="fade" mode="out-in">

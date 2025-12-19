@@ -1,7 +1,5 @@
 <script setup>
-/**
- * PreferencesSettings.vue - App Preferences Settings
- */
+
 import { ref, inject } from 'vue'
 import { useUserStore } from '@/stores/userStore'
 import BaseInput from '@/components/BaseInput.vue'
@@ -9,11 +7,9 @@ import BaseInput from '@/components/BaseInput.vue'
 const userStore = useUserStore()
 const showNotification = inject('showNotification', () => {})
 
-// Budget limit input
 const budgetLimit = ref(userStore.budgetLimit)
 const budgetError = ref('')
 
-// Validate and save budget
 const updateBudget = () => {
   const limit = parseFloat(budgetLimit.value)
   
@@ -32,7 +28,6 @@ const updateBudget = () => {
   showNotification(`Budget limit updated to $${limit.toFixed(2)}`, 'success')
 }
 
-// Clear all expenses
 const clearExpenses = () => {
   if (confirm('Are you sure you want to clear all expenses? This cannot be undone.')) {
     userStore.expenses = []
@@ -40,7 +35,6 @@ const clearExpenses = () => {
   }
 }
 
-// Clear all tasks
 const clearTasks = () => {
   if (confirm('Are you sure you want to clear all tasks? This cannot be undone.')) {
     localStorage.removeItem('lifeos_tasks')
@@ -56,7 +50,6 @@ const clearTasks = () => {
       Customize your LifeOS experience
     </p>
 
-    <!-- Budget Settings -->
     <div class="settings-group">
       <h3 class="group-title">💰 Budget Settings</h3>
       
@@ -93,7 +86,6 @@ const clearTasks = () => {
       </div>
     </div>
 
-    <!-- Data Management -->
     <div class="settings-group">
       <h3 class="group-title">🗄️ Data Management</h3>
       
@@ -122,7 +114,6 @@ const clearTasks = () => {
       </div>
     </div>
 
-    <!-- About -->
     <div class="settings-group">
       <h3 class="group-title">ℹ️ About LifeOS</h3>
       <div class="about-info">
@@ -135,7 +126,6 @@ const clearTasks = () => {
 </template>
 
 <style scoped>
-/* Scoped CSS */
 .section-title {
   font-size: 1.25rem;
   color: var(--text-primary);

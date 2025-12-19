@@ -1,45 +1,42 @@
-/**
- * useFocusTimer Composable
- */
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 export function useFocusTimer(options = {}) {
-    // Default options
+    
     const defaultOptions = {
-        workDuration: 25 * 60, // 25 minutes in seconds
-        breakDuration: 5 * 60, // 5 minutes in seconds
-        longBreakDuration: 15 * 60, // 15 minutes for long break
+        workDuration: 25 * 60, 
+        breakDuration: 5 * 60, 
+        longBreakDuration: 15 * 60, 
         sessionsBeforeLongBreak: 4
     }
 
     const config = { ...defaultOptions, ...options }
 
-    // Using ref for reactive state
+    
 
     const timeRemaining = ref(config.workDuration)
     const isRunning = ref(false)
     const isWorkSession = ref(true)
     const completedSessions = ref(0)
-    const totalFocusTime = ref(0) // Total focused seconds today
+    const totalFocusTime = ref(0) 
 
     let intervalId = null
 
-    // Using computed for derived state
+    
 
-    // Format time as MM:SS
+    
     const formattedTime = computed(() => {
         const minutes = Math.floor(timeRemaining.value / 60)
         const seconds = timeRemaining.value % 60
         return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
     })
 
-    // Progress percentage (0-100)
+    
     const progress = computed(() => {
         const total = isWorkSession.value ? config.workDuration : config.breakDuration
         return Math.round(((total - timeRemaining.value) / total) * 100)
     })
 
-    // Current session type label
+    
     const sessionLabel = computed(() => {
         if (isWorkSession.value) {
             return 'Focus Time'
@@ -49,7 +46,7 @@ export function useFocusTimer(options = {}) {
             : 'Short Break'
     })
 
-    // Format total focus time as hours and minutes
+    
     const formattedTotalTime = computed(() => {
         const hours = Math.floor(totalFocusTime.value / 3600)
         const minutes = Math.floor((totalFocusTime.value % 3600) / 60)
@@ -59,11 +56,8 @@ export function useFocusTimer(options = {}) {
         return `${minutes}m`
     })
 
-    // TIMER FUNCTIONS
+    
 
-    /**
-     * Start the timer
-     */
     function start() {
         if (isRunning.value) return
 
@@ -71,21 +65,18 @@ export function useFocusTimer(options = {}) {
         intervalId = setInterval(() => {
             if (timeRemaining.value > 0) {
                 timeRemaining.value--
-                // Track focus time only during work sessions
+                
                 if (isWorkSession.value) {
                     totalFocusTime.value++
                     saveFocusTime()
                 }
             } else {
-                // Timer completed
+                
                 handleTimerComplete()
             }
         }, 1000)
     }
 
-    /**
-     * Pause the timer
-     */
     function pause() {
         isRunning.value = false
         if (intervalId) {
@@ -94,65 +85,47 @@ export function useFocusTimer(options = {}) {
         }
     }
 
-    /**
-     * Reset the timer to initial state
-     */
     function reset() {
         pause()
         timeRemaining.value = isWorkSession.value ? config.workDuration : config.breakDuration
     }
 
-    /**
-     * Skip to next session
-     */
     function skip() {
         pause()
         switchSession()
     }
 
-    /**
-     * Handle timer completion
-     */
     function handleTimerComplete() {
         pause()
 
         if (isWorkSession.value) {
             completedSessions.value++
-            // Play notification sound (if available)
+            
             playNotificationSound()
         }
 
         switchSession()
     }
 
-    /**
-     * Switch between work and break sessions
-     */
     function switchSession() {
         isWorkSession.value = !isWorkSession.value
 
         if (isWorkSession.value) {
             timeRemaining.value = config.workDuration
         } else {
-            // Check if should be long break
+            
             const shouldBeLongBreak = completedSessions.value % config.sessionsBeforeLongBreak === 0
             timeRemaining.value = shouldBeLongBreak ? config.longBreakDuration : config.breakDuration
         }
     }
 
-    /**
-     * Set custom time (for adjustments)
-     */
     function setTime(minutes) {
         pause()
         timeRemaining.value = minutes * 60
     }
 
-    /**
-     * Play a notification sound
-     */
     function playNotificationSound() {
-        // Simple beep using Web Audio API
+        
         try {
             const audioContext = new (window.AudioContext || window.webkitAudioContext)()
             const oscillator = audioContext.createOscillator()
@@ -168,21 +141,15 @@ export function useFocusTimer(options = {}) {
             oscillator.start()
             oscillator.stop(audioContext.currentTime + 0.2)
         } catch (e) {
-            // Audio not supported, fail silently
+            
         }
     }
 
-    /**
-     * Save focus time to localStorage
-     */
     function saveFocusTime() {
         const today = new Date().toISOString().split('T')[0]
         localStorage.setItem(`lifeos_focus_${today}`, totalFocusTime.value.toString())
     }
 
-    /**
-     * Load today's focus time from localStorage
-     */
     function loadFocusTime() {
         const today = new Date().toISOString().split('T')[0]
         const saved = localStorage.getItem(`lifeos_focus_${today}`)
@@ -191,15 +158,15 @@ export function useFocusTimer(options = {}) {
         }
     }
 
-    // LIFECYCLE HOOKS
+    
 
-    // Load saved focus time when composable is mounted
+    
     onMounted(() => {
         loadFocusTime()
         console.log('[useFocusTimer] Composable mounted, loaded focus time:', totalFocusTime.value)
     })
 
-    // Cleanup interval when component unmounts
+    
     onUnmounted(() => {
         if (intervalId) {
             clearInterval(intervalId)
@@ -207,23 +174,23 @@ export function useFocusTimer(options = {}) {
         console.log('[useFocusTimer] Composable unmounted, cleaned up timer')
     })
 
-    // RETURN PUBLIC API
+    
 
     return {
-        // State
+        
         timeRemaining,
         isRunning,
         isWorkSession,
         completedSessions,
         totalFocusTime,
 
-        // Computed
+        
         formattedTime,
         progress,
         sessionLabel,
         formattedTotalTime,
 
-        // Methods
+        
         start,
         pause,
         reset,

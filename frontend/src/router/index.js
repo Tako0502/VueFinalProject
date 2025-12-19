@@ -1,6 +1,3 @@
-/**
- * Vue Router Configuration
- */
 import { createRouter, createWebHistory } from 'vue-router'
 
 
@@ -90,9 +87,6 @@ const router = createRouter({
     }
 })
 
-/**
- * Global Navigation Guard
- */
 router.beforeEach((to, from, next) => {
 
     const requiresAuth = to.meta.requiresAuth !== false

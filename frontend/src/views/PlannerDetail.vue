@@ -1,7 +1,4 @@
 <script setup>
-/**
- * PlannerDetail.vue - Dynamic Route View
- */
 import { ref, computed, onMounted, watch, inject } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useTaskStore } from '@/stores/taskStore'
@@ -14,11 +11,9 @@ const router = useRouter()
 const taskStore = useTaskStore()
 const showNotification = inject('showNotification', () => {})
 
-// Loading and error states
 const isLoading = ref(false)
 const error = ref(null)
 
-// UI State
 const showAddTask = ref(false)
 const newTask = ref({
   title: '',
@@ -26,8 +21,6 @@ const newTask = ref({
   priority: 'medium'
 })
 
-// Get date from route params
-// Computed properties
 const currentDate = computed(() => route.params.date)
 
 const formattedDate = computed(() => {
@@ -48,12 +41,10 @@ const isPast = computed(() => {
   return new Date(currentDate.value) < new Date(new Date().toISOString().split('T')[0])
 })
 
-// Get tasks for the current date
 const dateTasks = computed(() => {
   return taskStore.getTasksByDate(currentDate.value)
 })
 
-// Task stats for this date
 const dateStats = computed(() => {
   const tasks = dateTasks.value
   const completed = tasks.filter(t => t.completed).length
@@ -64,13 +55,11 @@ const dateStats = computed(() => {
   }
 })
 
-// Fetch tasks on mount and when date changes
 const fetchData = async () => {
   isLoading.value = true
   error.value = null
   
   try {
-    // Load tasks for date
     await taskStore.loadTasksByDate(currentDate.value)
     
   } catch (err) {
@@ -82,12 +71,10 @@ const fetchData = async () => {
 
 onMounted(fetchData)
 
-// Watch for route changes (date param changes)
 watch(() => route.params.date, () => {
   fetchData()
 })
 
-// Navigation
 const goToPreviousDay = () => {
   const date = new Date(currentDate.value)
   date.setDate(date.getDate() - 1)
@@ -104,7 +91,6 @@ const goToToday = () => {
   router.push(`/planner/${new Date().toISOString().split('T')[0]}`)
 }
 
-// Task handlers
 const handleAddTask = () => {
   if (!newTask.value.title.trim()) {
     showNotification('Please enter a task title', 'warning')
@@ -135,14 +121,12 @@ const handleDeleteTask = (taskId) => {
 
 <template>
   <div class="planner-detail">
-    <!-- Navigation Header -->
     <header class="detail-header">
       <button @click="$router.push('/planner')" class="btn-back">
         ← Back to Calendar
       </button>
     </header>
 
-    <!-- Date Navigation -->
     <div class="date-nav">
       <button @click="goToPreviousDay" class="btn-nav">
         ← Previous Day
@@ -165,7 +149,6 @@ const handleDeleteTask = (taskId) => {
       </button>
     </div>
 
-    <!-- Quick Stats -->
     <div class="date-stats">
       <div class="stat">
         <span class="stat-value">{{ dateStats.total }}</span>
@@ -181,21 +164,17 @@ const handleDeleteTask = (taskId) => {
       </div>
     </div>
 
-    <!-- Loading State -->
     <div v-if="isLoading" class="loading-state">
       <div class="spinner"></div>
       <p>Loading tasks...</p>
     </div>
 
-    <!-- Error State -->
     <div v-else-if="error" class="error-state">
       <p>{{ error }}</p>
       <button @click="fetchData" class="btn-retry">Retry</button>
     </div>
 
-    <!-- Content -->
     <template v-else>
-      <!-- Add Task Section -->
       <section class="add-section">
         <button 
           class="btn-add"
@@ -204,7 +183,6 @@ const handleDeleteTask = (taskId) => {
           {{ showAddTask ? '✕ Cancel' : '+ Add Task for this Day' }}
         </button>
 
-        <!-- Add Task Form -->
         <div v-if="showAddTask" class="add-form">
           <BaseInput
             v-model="newTask.title"
@@ -240,11 +218,9 @@ const handleDeleteTask = (taskId) => {
         </div>
       </section>
 
-      <!-- Tasks List -->
       <section class="tasks-section">
         <h2 class="section-title">Tasks for {{ formattedDate }}</h2>
 
-        <!-- Empty State -->
         <div v-if="dateTasks.length === 0" class="empty-state">
           <span class="empty-icon">📭</span>
           <p>No tasks scheduled for this day</p>
@@ -253,7 +229,6 @@ const handleDeleteTask = (taskId) => {
           </button>
         </div>
 
-        <!-- Task List with Animations -->
         <TransitionGroup v-else name="list" tag="div" class="task-list">
           <TaskItem
             v-for="task in dateTasks"
@@ -265,7 +240,6 @@ const handleDeleteTask = (taskId) => {
         </TransitionGroup>
       </section>
 
-      <!-- Jump to Today -->
       <div v-if="!isToday" class="jump-today">
         <button @click="goToToday" class="btn-today">
           Jump to Today
@@ -276,7 +250,6 @@ const handleDeleteTask = (taskId) => {
 </template>
 
 <style scoped>
-/* Scoped CSS */
 .planner-detail {
   max-width: 800px;
   margin: 0 auto;
@@ -301,7 +274,6 @@ const handleDeleteTask = (taskId) => {
   border-color: var(--primary-color);
 }
 
-/* Date Navigation */
 .date-nav {
   display: flex;
   justify-content: space-between;
@@ -361,7 +333,6 @@ const handleDeleteTask = (taskId) => {
   color: var(--text-secondary);
 }
 
-/* Stats */
 .date-stats {
   display: flex;
   justify-content: center;
@@ -392,7 +363,6 @@ const handleDeleteTask = (taskId) => {
 .stat--success .stat-value { color: var(--secondary-color); }
 .stat--warning .stat-value { color: var(--warning-color); }
 
-/* Loading/Error */
 .loading-state,
 .error-state {
   text-align: center;
@@ -409,7 +379,6 @@ const handleDeleteTask = (taskId) => {
   cursor: pointer;
 }
 
-/* Add Section */
 .add-section {
   margin-bottom: 2rem;
 }
@@ -486,7 +455,6 @@ const handleDeleteTask = (taskId) => {
   cursor: pointer;
 }
 
-/* Tasks Section */
 .section-title {
   font-size: 1.1rem;
   color: var(--text-primary);
@@ -527,7 +495,6 @@ const handleDeleteTask = (taskId) => {
   cursor: pointer;
 }
 
-/* Jump to Today */
 .jump-today {
   margin-top: 2rem;
   text-align: center;
@@ -548,7 +515,6 @@ const handleDeleteTask = (taskId) => {
   color: white;
 }
 
-/* List animations */
 .list-enter-active,
 .list-leave-active {
   transition: all 0.4s ease;

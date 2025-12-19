@@ -1,7 +1,4 @@
 <script setup>
-/**
- * SettingsView.vue - Settings Parent View
- */
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -9,13 +6,11 @@ const route = useRoute()
 
 <template>
   <div class="settings-view">
-    <!-- Settings Header -->
     <header class="settings-header">
       <h1 class="page-title">⚙️ Settings</h1>
       <p class="page-subtitle">Manage your account and preferences</p>
     </header>
 
-    <!-- Settings Navigation -->
     <nav class="settings-nav">
       <router-link 
         to="/settings/profile" 
@@ -40,7 +35,6 @@ const route = useRoute()
 </template>
 
 <style scoped>
-/* Scoped CSS */
 .settings-view {
   max-width: 800px;
   margin: 0 auto;
